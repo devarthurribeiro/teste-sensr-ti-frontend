@@ -6,12 +6,25 @@ export const useClientStore = defineStore('client', {
   state: () => ({
     clients: [] as Client[],
     filterTerm: '',
+    filterTermOptions: '',
   }),
   getters: {
     filteredClients(state): Client[] {
       return state.clients.filter((client) =>
         client.name.toLowerCase().includes(this.filterTerm.toLowerCase())
       );
+    },
+    optionsClients(state) {
+      return state.clients
+        .map((client) => ({
+          label: client.name,
+          value: client,
+        }))
+        .filter((client) =>
+          client.label
+            .toLowerCase()
+            .includes(this.filterTermOptions.toLowerCase())
+        );
     },
   },
   actions: {
